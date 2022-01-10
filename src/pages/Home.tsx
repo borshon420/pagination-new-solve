@@ -97,7 +97,8 @@ const Home: React.FC = () => {
     }
 
     return (
-        <>
+        <div data-testid="home">
+            <>
             <h2>Post List</h2>
             {
                 loading ? <Box sx={{display: 'flex', justifyContent: "center", alignItems: "center"}}>
@@ -172,6 +173,7 @@ const Home: React.FC = () => {
                 </Paper>
             </Container>
         </>
+        </div>
     )
 }
 
