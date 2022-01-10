@@ -2,13 +2,13 @@ import {
     Box,
     CircularProgress,
     Container,
+    Pagination,
     Paper,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
-    TablePagination,
     TableRow
 } from "@mui/material";
 import React, {useEffect, useState} from "react";
@@ -43,8 +43,8 @@ const Home: React.FC = () => {
     const [page, setPage] = useState<number>(0);
 
     // Local Pagination
-    const [localPage, setLocalPage] = useState<number>(0);
-    const rowsPerPage: number = 13;
+    const [localPage, setLocalPage] = useState<number>(1);
+    const rowsPerPage: number = 20;
     const [totalElements, setTotalElements] = useState<number>(0);
 
     const [loading, setLoading] = useState<boolean>(false);
@@ -98,8 +98,7 @@ const Home: React.FC = () => {
 
     return (
         <>
-           <div data-testid="home">
-           <h2>Post List</h2>
+            <h2>Post List</h2>
             {
                 loading ? <Box sx={{display: 'flex', justifyContent: "center", alignItems: "center"}}>
                     <CircularProgress size={20}/> Trying to load new posts...
@@ -107,7 +106,7 @@ const Home: React.FC = () => {
             }
             <Container style={{maxWidth: "100%"}}>
                 <Paper>
-                    <TableContainer sx={{height: "768px"}}>
+                    <TableContainer sx={{height: "calc(100vh - 150px)"}}>
                         <Table stickyHeader aria-label="sticky table">
                             <TableHead>
                                 <TableRow>
@@ -128,7 +127,7 @@ const Home: React.FC = () => {
                             <TableBody>
                                 {
                                     posts
-                                        .slice(localPage * rowsPerPage, localPage * rowsPerPage + rowsPerPage)
+                                        .slice((localPage - 1) * rowsPerPage, (localPage - 1) * rowsPerPage + rowsPerPage)
                                         .map((row, index) => {
                                             return (
                                                 <TableRow
@@ -155,20 +154,23 @@ const Home: React.FC = () => {
                         </Table>
                     </TableContainer>
 
-                    {
-                        posts.length > 13 && <TablePagination
-                            rowsPerPageOptions={[]}
-                            component="div"
-                            count={totalElements}
-                            rowsPerPage={rowsPerPage}
-                            page={localPage}
-                            onPageChange={handleChangePage}
-                        />
-                    }
+                    {/*<TablePagination*/}
+                    {/*    rowsPerPageOptions={[]}*/}
+                    {/*    component="div"*/}
+                    {/*    count={totalElements}*/}
+                    {/*    rowsPerPage={rowsPerPage}*/}
+                    {/*    page={localPage}*/}
+                    {/*    onPageChange={handleChangePage}*/}
+                    {/*/>*/}
+
+                    <Pagination
+                        count={totalElements / rowsPerPage}
+                        page={localPage}
+                        onChange={handleChangePage}
+                    />
 
                 </Paper>
             </Container>
-           </div>
         </>
     )
 }
